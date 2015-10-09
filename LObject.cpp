@@ -1,4 +1,5 @@
 #include "LObject.h"
+#include <iostream>
 
 int LObject::global_ID = 0;
 
@@ -33,7 +34,7 @@ LObject::~LObject()
 	if (exist_parent == true)
 		parent->del_child(ID);
 
-	//std::cout << "delete ID = " << ID << " \n";
+	std::cout << "delete ID = " << ID << " \n";
 }
 
 void LObject::set_dead()
@@ -49,10 +50,19 @@ int LObject::get_ID()
 void LObject::del_child(int ID)
 {
 	int size = childs.size();
-	for (int i = 0; i < size; i++) {
-		if (ID == childs[i]->get_ID())
-			childs.erase(childs.begin() + i);
+	for (int i = 0; i < childs.size(); i++) {
+		if (ID == childs[i]->get_ID()) {
+			if (i == 0) {
+				childs.erase(childs.begin());
+				i--;
+			}
+			else {
+				childs.erase(childs.begin() + i);
+			}
+		}
 	}
+
+	
 }
 
 void LObject::push_child(LObject * child)
