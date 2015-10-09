@@ -1,0 +1,14 @@
+*.pdb
+*.idb
+*.enc
+x64/Debug/LFrameWork.tlog/unsuccessfulbuild
+*.obj
+*.log
+*.tlog
+x64/Debug/LFrameWork.tlog/*
+x64/Debug/
+x64/Debug/*
+x64/
+x64/*
+Debug/
+Debug/*

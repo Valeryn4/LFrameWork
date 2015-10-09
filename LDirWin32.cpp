@@ -3,6 +3,7 @@
 // windows version
 #ifdef _WIN32
 #include <iostream>
+#include <cstdio>  //reame
 
 LDir::LDir(LObject * par) : LObject(par)
 {
@@ -113,6 +114,8 @@ std::string LDir::get_dir_name(std::string path)
 
 bool LDir::rename_dir(std::string old_name, std::string new_name)
 {
+	if (rename(old_name.c_str(), new_name.c_str()) != -1)
+		return true;
 	return false;
 }
 
@@ -205,5 +208,6 @@ bool LDir::mkpath(std::string path)
 		return true;
 	return false;
 }
+
 
 #endif

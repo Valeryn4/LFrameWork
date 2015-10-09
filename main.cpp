@@ -28,6 +28,9 @@ int main() {
 	dir->mkpath("C:/SQL/Test1/test2/test3");
 	std::cout << dir->get_path() << std::endl;
 
+
+	dir->copy("C:/SQL/Test1/test001", "C:/SQL/Test1/1");
+
 	dir->exist("C:/Windows");
 	
 	delete o1;
