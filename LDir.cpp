@@ -121,6 +121,16 @@ bool LDir::exist(std::string path)
 		return true;   // this is a directory!
 
 	return false;    // this is not a directory!
+	
+	/*
+	BOOL DirectoryExists(LPCTSTR szPath)
+	{
+  		DWORD dwAttrib = GetFileAttributes(szPath);
+
+		 return (dwAttrib != INVALID_FILE_ATTRIBUTES && 
+         		(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+	}
+	*/
 }
 
 bool LDir::mkdir(std::string name)
