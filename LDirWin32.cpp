@@ -1,5 +1,9 @@
 #include "LDir.h"
+
+// windows version
+#ifdef _WIN32
 #include <iostream>
+
 LDir::LDir(LObject * par) : LObject(par)
 {
 
@@ -113,7 +117,7 @@ bool LDir::rename_dir(std::string old_name, std::string new_name)
 bool LDir::exist(std::string path)
 {
 	//copy-paste http://stackoverflow.com/questions/8233842/how-to-check-if-directory-exist-using-c-and-winapi
-	DWORD ftyp = GetFileAttributesA(path.c_str());
+	/*DWORD ftyp = GetFileAttributesA(path.c_str());
 	if (ftyp == INVALID_FILE_ATTRIBUTES)
 		return false;  //something is wrong with your path!
 
@@ -121,24 +125,78 @@ bool LDir::exist(std::string path)
 		return true;   // this is a directory!
 
 	return false;    // this is not a directory!
-	
-	/*
-	BOOL DirectoryExists(LPCTSTR szPath)
-	{
-  		DWORD dwAttrib = GetFileAttributes(szPath);
+	*/	
+	if (path.at(path.length() - 1) == '/' ||
+		path.at(path.length() - 1) == '\\')
+		path.pop_back();
 
-		 return (dwAttrib != INVALID_FILE_ATTRIBUTES && 
-         		(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-	}
-	*/
+  	DWORD dwAttrib = GetFileAttributes(path.c_str());
+
+	return	(dwAttrib != INVALID_FILE_ATTRIBUTES && 
+         	(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+	
 }
 
 bool LDir::mkdir(std::string name)
 {
+	if (!exist(dir_path))
+		return false;
+	if (dir_path.at(dir_path.length() - 1) == '/' ||
+		dir_path.at(dir_path.length() - 1) == '\\')
+		dir_path.pop_back();
+	if (name.at(0) == '/' || name.at(0) == '\\') {
+		name.clear();
+		name = dir_path + name;
+	}
+	else {
+		name.clear();
+		name = dir_path + '/' + name;
+
+	}
+
+	name.clear();
+	name = dir_path + '/' + name;
+
+	if (CreateDirectory(name.c_str(), NULL) ||
+		ERROR_ALREADY_EXISTS == GetLastError())
+		return true;
 	return false;
 }
 
 bool LDir::mkpath(std::string name)
 {
+	std::string temp_path;
+	std::string temp_dir;
+		temp_path.clear();
+		temp_dir.clear();
+	int n = name.length();
+	int dir = 0;
+	bool temp_exist = false;
+	//brain hack
+	for (int i = 0; i < n; i++) {
+		if (temp_exist == true)
+			temp_dir.push_back(name.at(i));
+		if (name.at(i) == '/' || name.at(i) == '\\') {
+			if (temp_exist == false) {
+				dir++;
+				temp_exist = true;
+			}
+			else if (temp_exist == true) {
+				if (!exist(temp_path)) {
+					if (!mkdir(temp_dir))
+						return false;
+				}
+				temp_dir.clear();
+				temp_exist = false;
+			}
+		}
+		temp_path.push_back(name.at(i));
+	}
+	//end brain hack;
+
+	if (exist(temp_path))
+		return true;
 	return false;
 }
+
+#endif

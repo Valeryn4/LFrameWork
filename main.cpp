@@ -7,7 +7,7 @@ int main() {
 	LObject * o1 = new LObject;
 	LDir * dir = new LDir(o1);
 	
-	dir->set_path("C:/Qt");
+	dir->set_path("C:/SQL");
 	std::cout << dir->get_path() << std::endl;
 
 	dir->cd("..");

@@ -1,0 +1,25 @@
+﻿Сборка начата 09.10.2015 19:04:46.
+     1>Проект "c:\Users\Valeryn\documents\visual studio 2015\Projects\LFrameWork\LFrameWork\LFrameWork.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt LDirWin32.cpp LObject.cpp main.cpp
+         main.cpp
+         LObject.cpp
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\lobject.cpp(26): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\lobject.cpp(51): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+         LDirWin32.cpp
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\ldirwin32.cpp(49): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\ldirwin32.cpp(77): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\ldirwin32.cpp(81): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\ldirwin32.cpp(97): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>c:\users\valeryn\documents\visual studio 2015\projects\lframework\lframework\ldirwin32.cpp(101): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+         Создание кода...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\valeryn\documents\visual studio 2015\Projects\LFrameWork\x64\Debug\LFrameWork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"c:\users\valeryn\documents\visual studio 2015\Projects\LFrameWork\x64\Debug\LFrameWork.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\valeryn\documents\visual studio 2015\Projects\LFrameWork\x64\Debug\LFrameWork.lib" /MACHINE:X64 x64\Debug\LDirWin32.obj
+         x64\Debug\LObject.obj
+         x64\Debug\main.obj
+         LFrameWork.vcxproj -> c:\users\valeryn\documents\visual studio 2015\Projects\LFrameWork\x64\Debug\LFrameWork.exe
+     1>Сборка проекта "c:\Users\Valeryn\documents\visual studio 2015\Projects\LFrameWork\LFrameWork\LFrameWork.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:04.88
