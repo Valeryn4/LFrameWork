@@ -1,7 +1,7 @@
 
-#include "LObject.h"
 #include "LDir.h"
 #include <iostream>
+
 int main() {
 
 	

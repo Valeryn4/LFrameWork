@@ -8,8 +8,7 @@ LDir::LDir(LObject * par) : LObject(par)
 	char path[MAX_PATH] = {};
 
 	GetCurrentDirectory(MAX_PATH, path);
-	dir_path = path;
-	std::replace(dir_path.begin(), dir_path.end(), '\\', '/');
+	set_path(path);
 
 }
 
@@ -38,7 +37,11 @@ bool LDir::set_path(std::string path)
 	if (dir_path.at(dir_path.length() - 1) == '/' ||
 		dir_path.at(dir_path.length() - 1) == '\\')
 		dir_path.pop_back();
-	
+
+	std::replace(dir_path.begin(), dir_path.end(), '\\', '/');
+
+	LDebug("set dir_path: " + dir_path);
+
 	if (exist(dir_path))
 		return true;
 	return false;
@@ -52,12 +55,16 @@ bool LDir::cd(std::string path)
 		std::string temp = dir_path;
 		if (temp.at(temp.length()-1) == '/' || temp.at(temp.length()-1) == '\\')
 			temp.pop_back();
-		for (int i = temp.length()-1; i > 0; i--) {
+		for (size_t i = temp.length()-1; i > 0; i--) {
 			if (temp.at(i) == '/' || temp.at(i) == '\\') {
 				temp.pop_back();
 				dir_path.clear();
 				dir_path = temp;
 				dir_path.shrink_to_fit();
+				std::replace(dir_path.begin(), dir_path.end(), '\\', '/');
+
+				LDebug("cd to: " + dir_path);
+
 				return true;
 			}
 			temp.pop_back();
@@ -66,6 +73,8 @@ bool LDir::cd(std::string path)
 	}
 	if (exist(dir_path + path)) {
 		dir_path += path;
+		std::replace(dir_path.begin(), dir_path.end(), '\\', '/');
+		LDebug("cd to: " + dir_path);
 		return true;
 	}
 	else if (exist(dir_path + "/" + path)) {
@@ -80,12 +89,12 @@ std::string LDir::get_dir_name()
 	std::string temp = dir_path;
 	if (temp.at(temp.length()-1) == '/' || temp.at(temp.length()-1) == '\\')
 		temp.pop_back();
-	for (int i = temp.length()-1; i > 0; i--) {
+	for (size_t i = temp.length()-1; i > 0; i--) {
 		if (temp.at(i) == '\\' || temp.at(i) == '/') {
 			temp.clear();
 			temp.shrink_to_fit();
-			int length = dir_path.length()-1;
-			for (int n = i; n > length; n++) {
+			size_t length = dir_path.length()-1;
+			for (size_t n = i; n > length; n++) {
 				temp.push_back(dir_path.at(n));
 			}
 			return temp;
@@ -100,12 +109,12 @@ std::string LDir::get_dir_name(std::string path)
 	std::string temp = path;
 	if (temp.at(temp.length()-1) == '/' || temp.at(temp.length()-1) == '\\')
 		temp.pop_back();
-	for (int i = temp.length()-1; i > 0; i--) {
+	for (size_t i = temp.length()-1; i > 0; i--) {
 		if (temp.at(i) == '\\' || temp.at(i) == '/') {
 			temp.clear();
 			temp.shrink_to_fit();
-			int length = path.length()-1;
-			for (int n = i; n <= length; n++) {
+			size_t length = path.length()-1;
+			for (size_t n = i; n <= length; n++) {
 				if (path.at(n) != '/' && path.at(n) != '\\')
 					temp.push_back(path.at(n));
 			}
@@ -175,8 +184,10 @@ bool LDir::mkdir(std::string name)
 		name.at(name.length() - 1) == '\\')
 		name.pop_back();
 
-	if (!exist(dir_path))
+	if (!exist(dir_path)) {
+		LDebug("fail mkdir " + dir_path + '/' + name);
 		return false;
+	}
 	if (dir_path.at(dir_path.length() - 1) == '/' ||
 		dir_path.at(dir_path.length() - 1) == '\\')
 		dir_path.pop_back();
@@ -190,20 +201,23 @@ bool LDir::mkdir(std::string name)
 
 	if (CreateDirectory(name.c_str(), NULL) ||
 		ERROR_ALREADY_EXISTS == GetLastError()) {
-		cd('/' + temp);		
+		cd('/' + temp);	
+		LDebug("mkdir: " + name);
 		return true;
 	}
+	LDebug("fail mkdir " + name);
 	return false;
+	
 }
 
 bool LDir::mkpath(std::string path)
 {
-	std::cout << "mkpath " << path << std::endl;
+	//std::cout << "mkpath " << path << std::endl;
 	std::string temp_path;
 	std::string temp_dir;
 		temp_path.clear();
 		temp_dir.clear();
-	int n = path.length();
+	size_t n = path.length();
 	bool temp_exist = false;
 	//brain hack
 	for (int i = 0; i < n; i++) {

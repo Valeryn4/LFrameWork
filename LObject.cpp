@@ -1,5 +1,10 @@
 #include "LObject.h"
-#include <iostream>
+#if _DEBUG
+void Ldebug(std::string s) {
+	std::cout << s << std::endl;
+}
+#endif
+
 
 int LObject::global_ID = 0;
 
@@ -10,13 +15,13 @@ LObject::LObject(LObject * par)
 
 	if (par == NULL) {
 		exist_parent = false;
-		//std::cout << "create process ID = " << ID << std::endl;
+		LDebug("create process ID = " + std::to_string(ID));
 	}
 	else {
 		exist_parent = true;
 		parent = par;
 		parent->push_child(this);
-		//std::cout << "create process ID = " << ID << "; parrent ID = " << parent->get_ID() << std::endl;
+		LDebug("create process ID = " + std::to_string(ID) + " parent ID: " + std::to_string(parent->get_ID()));
 	}	
 }
 
@@ -24,7 +29,7 @@ LObject::LObject(LObject * par)
 
 LObject::~LObject()
 {
-	int size = childs.size();
+	size_t size = childs.size();
 	for (int i = 0; i < size; i++ )
 	{
 		childs[i]->set_dead();
@@ -34,7 +39,7 @@ LObject::~LObject()
 	if (exist_parent == true)
 		parent->del_child(ID);
 
-	//std::cout << "delete ID = " << ID << " \n";
+	LDebug("delete process ID = " + std::to_string(ID));
 }
 
 void LObject::set_dead()
@@ -49,7 +54,7 @@ int LObject::get_ID()
 
 void LObject::del_child(int ID)
 {
-	int size = childs.size();
+	size_t size = childs.size();
 	for (int i = 0; i < childs.size(); i++) {
 		if (ID == childs[i]->get_ID()) {
 			if (i == 0) {

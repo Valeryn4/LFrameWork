@@ -2,6 +2,15 @@
 #include <vector>
 #include <memory>
 
+#if _DEBUG
+#include <iostream>
+#include <string>
+#define LDebug(str) Ldebug(str)
+void Ldebug(std::string str);
+#else
+#define LDebug(str) /*#str*/
+#endif
+
 
 class LObject
 {
