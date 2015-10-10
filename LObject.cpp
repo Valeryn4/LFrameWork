@@ -34,7 +34,7 @@ LObject::~LObject()
 	if (exist_parent == true)
 		parent->del_child(ID);
 
-	std::cout << "delete ID = " << ID << " \n";
+	//std::cout << "delete ID = " << ID << " \n";
 }
 
 void LObject::set_dead()

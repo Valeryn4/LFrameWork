@@ -22,6 +22,11 @@ int main() {
 	LObject * d2 = new LObject(c3);
 	LObject * d3 = new LObject(dir);
 
+	dir->get_ls();
+	dir->get_ls("C:/SQL");
+	dir->get_currect_path();
+	dir->get_home_path();
+	dir->get_dir_name(dir->get_home_path());
 	
 	
 	std::cout << "\n a1 " << a1->get_ID()

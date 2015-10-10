@@ -1,12 +1,15 @@
-#include "LDir.h"
-
 // windows version
 #ifdef _WIN32
-#include <iostream>
-#include <cstdio>  //reame
+#include "LDir.h"
+
 
 LDir::LDir(LObject * par) : LObject(par)
 {
+	char path[MAX_PATH] = {};
+
+	GetCurrentDirectory(MAX_PATH, path);
+	dir_path = path;
+	std::replace(dir_path.begin(), dir_path.end(), '\\', '/');
 
 }
 
@@ -102,14 +105,37 @@ std::string LDir::get_dir_name(std::string path)
 			temp.clear();
 			temp.shrink_to_fit();
 			int length = path.length()-1;
-			for (int n = i; n > length; n++) {
-				temp.push_back(path.at(n));
+			for (int n = i; n <= length; n++) {
+				if (path.at(n) != '/' && path.at(n) != '\\')
+					temp.push_back(path.at(n));
 			}
 			return temp;
 		}
 		temp.pop_back();
 	}
 	return "ERROR ERROR ERROR";
+}
+
+std::string LDir::get_currect_path()
+{
+	char path[MAX_PATH] = {};
+
+	GetCurrentDirectory(MAX_PATH, path);
+	std::string spath(path);
+	std::replace(spath.begin(), spath.end(), '\\', '/');
+	return spath;
+}
+
+std::string LDir::get_home_path()
+{
+	char path[MAX_PATH] = {};
+
+	if (SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, path) == S_OK ) {
+
+	}
+	std::string spath(path);
+	std::replace(spath.begin(), spath.end(), '\\', '/');
+	return spath;
 }
 
 bool LDir::rename_dir(std::string old_name, std::string new_name)
@@ -207,6 +233,50 @@ bool LDir::mkpath(std::string path)
 	if (exist(temp_path))
 		return true;
 	return false;
+}
+
+std::list<std::string> LDir::get_ls(std::string path)
+{
+	std::list<std::string> list;
+	WIN32_FIND_DATA data;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+
+	if (path == "-1") {
+		if (dir_path.at(dir_path.length() - 1) != '/' ||
+			dir_path.at(dir_path.length() - 1) != '\\') {
+			dir_path.push_back('/');
+			dir_path.push_back('*');
+		}
+		else
+			dir_path.push_back('*');
+
+		hFind = FindFirstFile(dir_path.c_str(), &data);
+	}
+	else {
+		if (exist(path)) {
+			if (path.at(path.length() - 1) != '/' ||
+				path.at(path.length() - 1) != '\\') {
+				path.push_back('/');
+				path.push_back('*');
+			}
+			else
+				path.push_back('*');
+
+			hFind = FindFirstFile(path.c_str(), &data);
+		}
+		else {
+			list.clear();
+			list.push_front("ERROR");
+			return list;
+		}
+	}
+
+	do {
+		if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+			list.push_back(std::string(data.cFileName));
+		}
+	} while (FindNextFile(hFind, &data) != 0);
+	return list;
 }
  
 
