@@ -54,7 +54,7 @@ int LObject::get_ID()
 
 void LObject::del_child(int ID)
 {
-	size_t size = childs.size();
+	/*size_t size = childs.size();
 	for (int i = 0; i < childs.size(); i++) {
 		if (ID == childs[i]->get_ID()) {
 			if (i == 0) {
@@ -65,7 +65,13 @@ void LObject::del_child(int ID)
 				childs.erase(childs.begin() + i);
 			}
 		}
-	}
+	}*/
+	
+	for (int i = 0; i < childs.size(); i++) {
+		if (ID == childs[i]->get_ID()) {
+			childs.erase(childs.begin() + i);
+			break;
+		}
 
 	
 }
