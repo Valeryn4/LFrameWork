@@ -67,7 +67,7 @@ void LObject::del_child(int ID)
 		}
 	}*/
 	
-	for (int i = 0; i < childs.size(); i++) {
+	for (int i = 0; i < childs.size(); i++)
 		if (ID == childs[i]->get_ID()) {
 			childs.erase(childs.begin() + i);
 			break;
